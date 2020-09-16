@@ -211,28 +211,26 @@ export default {
 
 					logs.sendLogInfo('ADDED NUMBER ' + this.$auth.user.email, data);
 
-					this.$alert('Your number was added to your account.', 'Completed', {
-						confirmButtonText: 'CONTINUE',
-						type: 'success',
-						center: true,
+
+
+					this.$success({
+						content: 'Your number was added to your account.',
+						title: 'completed'
 					});
 
-					this.$router.push('/dashboard/numbers');
+					this.$router.push('/campaign/numbers');
 				} catch (error) {
 					logs.sendLogInfo('ERROR ON BUY NUMBER ' + this.$auth.user.email, error);
 
-					this.$alert(error.response.data.message, 'Error', {
-						confirmButtonText: 'Ok',
-						type: 'error',
-						center: true,
+					this.$error({
+						content: error.response.data.message,
+						title: 'Error'
 					});
 				}
 			} else {
-				this.$alert('That number requires additional information. Please contact us.', 'Error on process', {
-					confirmButtonText: 'OK.',
-					type: 'success',
-					center: true,
-				});
+				this.$error({
+					content:'That number requires additional information. Please contact us.', 
+					title: 'Error on process'});
 			}
 		},
 		async changeCode() {

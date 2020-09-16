@@ -35,6 +35,7 @@
 			</a-col>
 
 			<a-col :lg="{ span: 12 }" :xs="{ span: 24, offset: 0 }">
+				
 					<div class="p-4 m-5 bg-white rounded shadow-xl">
 					<div class="block text-left text-sm sm:text-md max-w-sm mx-auto mt-2 text-black px-8 lg:px-6">
 						<h1
@@ -99,8 +100,10 @@ import logs from '../../api-front/logs';
 
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-
 import _ from 'lodash';
+
+
+
 
 export default {
 	head: {
@@ -162,51 +165,53 @@ export default {
 					const response = await createToken();
 					token = response.token.id;
 
-					await payPlan({
-						idPlan: this.$route.params.id,
-						userId: this.$auth.user.id,
-						email: this.email,
-						token: token,
-					});
+					// await payPlan({
+					// 	idPlan: this.$route.params.id,
+					// 	userId: this.$auth.user.id,
+					// 	email: this.email,
+					// 	token: token,
+					// });
 
-					let currentDate = new Date();
-					let endDate = currentDate.setDate(currentDate.getDate() + 30);
 
-					let history = {
-						user: this.$auth.user.id,
-						currentPlan: this.plan,
-						date: new Date(),
-						dateStart: new Date(),
-						dateEnd: new Date(endDate),
 
-						email: this.email,
-						phone: this.phone,
-						billingAddress: this.billingAddress,
-						price: this.price,
-					};
 
-					await updateUser(this.$auth.user.id, {
-						plan: this.$route.params.id,
-					});
+					// let currentDate = new Date();
+					// let endDate = currentDate.setDate(currentDate.getDate() + 30);
 
-					registryPayments(history);
+					// let history = {
+					// 	user: this.$auth.user.id,
+					// 	currentPlan: this.plan,
+					// 	date: new Date(),
+					// 	dateStart: new Date(),
+					// 	dateEnd: new Date(endDate),
 
-					logs.sendLogInfo('NEW PAYMENT: ' + this.email, history);
+					// 	email: this.email,
+					// 	phone: this.phone,
+					// 	billingAddress: this.billingAddress,
+					// 	price: this.price,
+					// };
 
-					let msgObj = msgCode['200'];
+					// await updateUser(this.$auth.user.id, {
+					// 	plan: this.$route.params.id,
+					// });
 
-					this.isLoading = false;
+					// registryPayments(history);
 
-					this.$router.push({
-						name: 'dashboard',
-					});
+					// logs.sendLogInfo('NEW PAYMENT: ' + this.email, history);
+
+					// let msgObj = msgCode['200'];
+
+					// this.isLoading = false;
+
+					// this.$router.push({
+					// 	name: 'dashboard',
+					// });
 				} catch (err) {
 					logs.sendLogInfo('ERROR ON PAYMENT: ' + this.email, err);
 
-					this.$alert('Error on create the payment', 'Please verify your credit card.', {
-						confirmButtonText: 'OK',
-						type: 'warning',
-						center: true,
+					this.$error({
+						title: 'Error on create the payment', 
+						content: 'Please verify your credit card.'
 					});
 
 					this.isLoading = false;

@@ -96,9 +96,9 @@ export default {
       if (this.sms_message == "") {
         isValid = false;
 
-        this.$alert("Message can not be empty", "Errpr", {
-          confirmButtonText: "Ok",
-          type: "error",
+        this.$error({
+          content: "Message can not be empty",
+          title: "Error",
         });
       } 
 
@@ -114,10 +114,9 @@ export default {
               sms_message: this.sms_message,
             });
 
-            this.$alert("Your campaign was saved", "Success", {
-              confirmButtonText: "CONTINUE",
-              type: "success",
-              center: true,
+            this.$success({
+              content: "Your campaign was saved", 
+              title:"Success"
             });
 
 
@@ -126,9 +125,9 @@ export default {
               sms_message: this.sms_message,
             });
 
-            this.$alert("Your campaign was saved", "Success", {
-              confirmButtonText: "CONTINUE",
-              type: "success",
+            this.$success({
+              content: "Your campaign was saved",
+              title: "success",
               center: true,
             });
 

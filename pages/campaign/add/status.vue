@@ -91,10 +91,10 @@ export default {
       updateCampaign(this.selectedRegisterId, {
         state: "terminated",
       });
-      this.$alert("Your campaign was saved", "Success", {
-        confirmButtonText: "CONTINUE",
-        type: "success",
-        center: true,
+      this.$success(
+        {
+          content: "Your campaign was saved", 
+          title: "Success" 
       });
 
       await this.getData()

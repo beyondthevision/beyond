@@ -2,9 +2,97 @@
 	<div>
 		<div>
 			<div>
+
 		<a-page-header style="border: 1px solid rgb(235, 237, 240);margin-bottom:10px;" title="Agents Metrics" @back="() => null">
 
 		</a-page-header>
+
+<a-row class="mt-4 ml-4">
+
+			<a-col :lg="{ span: 12 }" :xs="{ span: 24, offset: 0 }">
+
+<div class="border-b border-gray-200">
+  <div class="space-y-4 sm:flex sm:items-baseline sm:space-y-0 sm:space-x-10">
+    <div>
+      <nav class="-mb-px flex space-x-8">
+
+	        <a  class="whitespace-no-wrap pb-4 px-1 border-b-2  font-medium text-sm leading-5 text-indigo-600 focus:outline-none focus:text-indigo-800 focus:border-indigo-700" aria-current="page">
+		  <nuxt-link to="/dashboard">
+          General Metrics
+		  </nuxt-link>
+        </a>	  
+
+        <a class="whitespace-no-wrap pb-4 px-1 border-b-2 border-indigo-500 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">
+
+		<nuxt-link to="/dashboard/agents">
+          Agent Metrics
+		</nuxt-link>
+        </a>		
+
+
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+	</a-col>
+
+</a-row>
+
+<div>
+  <div class="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow md:grid-cols-3">
+    <div>
+      <div class="px-4 py-5 sm:p-6">
+        <dl>
+          <dt class="text-base leading-6 font-normal text-gray-900">
+           Average call length
+          </dt>
+          <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+            <div class="flex items-baseline text-2xl leading-8 font-semibold text-indigo-600">
+             										{{ averageCallLength }}
+
+    
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="border-t border-gray-200 md:border-0 md:border-l">
+      <div class="px-4 py-5 sm:p-6">
+        <dl>
+          <dt class="text-base leading-6 font-normal text-gray-900">
+            ASA
+          </dt>
+          <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+            <div class="flex items-baseline text-2xl leading-8 font-semibold text-indigo-600">
+										{{ asa }}
+
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="border-t border-gray-200 md:border-0 md:border-l">
+      <div class="px-4 py-5 sm:p-6">
+        <dl>
+          <dt class="text-base leading-6 font-normal text-gray-900">
+										Longest Call Hold
+          </dt>
+          <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+            <div class="flex items-baseline text-2xl leading-8 font-semibold text-indigo-600">
+										{{ longestCallHold }}
+            </div>
+     
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a-row class="mt-4">
+
 				<el-select @change="changeCampaign" v-model="selectedCampaign" placeholder="Select campaign" clearable>
 					<el-option v-for="item in campaigns" :key="item.id" :label="item.name" :value="item.id">
 					</el-option>
@@ -48,96 +136,48 @@
 				v-if="!mainInterval" @click="registerIntervals" class="button-dead"
 					><i class="fas fa-refresh"></i> Real Time</a
 				>
-			</div>
-		</div>
+</a-col>
+</a-row>
 
-		<div class="flex flex-wrap mt-5">
-			<div class="w-full md:w-4/4 xl:w-4/4 pl-3">
-				<ejs-dashboardlayout id="defaultLayout" :cellSpacing="spacing" :columns="6">
-					<div id="hundred" class="e-panel" data-row="0" data-col="0" data-sizeX="1" data-sizeY="2">
-						<div class="  p-2">
-							<div class="flex flex-row items-center">
-								<div class="flex-shrink pr-4">
-									<div class=" p-3 bg-green-600">
-										<i class="fa fa-phone fa-2x fa-fw fa-inverse"></i>
-									</div>
-								</div>
-								<div class="flex-1 text-right md:text-center">
-									<h5 class="font-bold uppercase text-gray-500">
-										Average call length
-									</h5>
-									<h3 class="font-bold text-3xl">
-										{{ averageCallLength }}
-										<span class="text-green-500"><i class="fas fa-caret-up"></i></span>
-									</h3>
-								</div>
-							</div>
-						</div>
+<a-row class="mt-4">
 
-						<div class="  p-2">
-							<div class="flex flex-row items-center">
-								<div class="flex-shrink pr-4">
-									<div class="p-3 bg-red-600">
-										<i class="fas fa-users fa-2x fa-fw fa-inverse"></i>
-									</div>
-								</div>
-								<div class="flex-1 text-right md:text-center">
-									<h5 class="font-bold uppercase text-gray-500">ASA</h5>
-									<h3 class="font-bold text-3xl">
-										{{ asa }}
-										<span class="text-red-500"><i class="fas fa-exchange-alt"></i></span>
-									</h3>
-								</div>
-							</div>
-						</div>
+			<a-col :lg="{ span: 12 }" :xs="{ span: 24, offset: 0 }">
+  <a-card>
+	  	        <a-spin v-if="isLoading" />
 
-						<div class="p-2">
-							<div class="flex flex-row items-center">
-								<div class="flex-shrink pr-4">
-									<div class=" p-3 bg-yellow-600">
-										<i class="fas fa-user-plus fa-2x fa-fw fa-inverse"></i>
-									</div>
-								</div>
-								<div class="flex-1 text-right md:text-center">
-									<h5 class="font-bold uppercase text-gray-500">
-										Longest Call Hold
-									</h5>
-									<h3 class="font-bold text-3xl">
-										{{ longestCallHold }}
-										<span class="text-yellow-600"><i class="fas fa-clock"></i></span>
-									</h3>
-								</div>
-							</div>
-						</div>
-					</div>
+						<apexchart 
+									:height="300"
 
-					<!-- 
-					<div id="two" class="e-panel" data-row="0" data-col="1" data-sizeX="2" data-sizeY="2">
-						<apexchart
+						v-show="!isLoading" ref="chartDay" type="line" :options="optionsDay" :series="seriesDay"></apexchart>
+
+  </a-card>
+		
+	</a-col>
+
+			<a-col :lg="{ span: 12 }" :xs="{ span: 24, offset: 0 }">
+				  <a-card>
+	        <a-spin v-if="isLoading" />
+
+					<apexchart
+						v-if="!isLoading"
 							ref="chartMonth"
 							type="bar"
-							width="500"
+									:height="300"
 							:options="optionsMonth"
 							:series="seriesMonth"
 						></apexchart>
-					</div> -->
+								  </a-card>
 
-					<div
-						id="six"
-						
-						class="e-panel"
-						data-row="0"
-						data-col="1"
-						style="height:392px;!"
-						data-sizeX="2"
-						data-sizeY="2"
-					>
-								<a style="padding:10px;padding-top:20px; font-weight:bold; color:black;" v-show="isLoading">Loading..</a>
+	</a-col>
 
-						<apexchart v-show="!isLoading" ref="chartDay" type="line" :options="optionsDay" :series="seriesDay"></apexchart>
-					</div>
+</a-row>
 
-				</ejs-dashboardlayout>
+
+
+
+
+
+
 			</div>
 		</div>
 	</div>
@@ -166,8 +206,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import logs from '../../api-front/logs';
 
 export default {
-	async mounted() {
+	name: 'agents',
+	async created() {
+		  if(process.client){
+
 		await this.getCampaigns();
+		  }
 	},
 	components: {
 		Loading,

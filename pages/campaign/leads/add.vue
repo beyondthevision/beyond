@@ -90,10 +90,15 @@
 
 			<div  v-if="single && selectedCampaign">
 				<div class="mb-5" style="margin-top:10px;">
-					<h3 class="font-bold leading-tight color-black">Manual creation</h3>
+					<h3 class="font-bold leading-tight color-black">{{name}} {{lastName}}</h3>
 				</div>
 
-				<label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+		<a v-if="phone" target="_blank" :href="'https://api.whatsapp.com/send?phone='+ phone">
+			<img width="200" src="https://i.pinimg.com/originals/94/91/67/949167d8fb7d9a899e93bd5e68e1319a.png" alt="">
+		</a>
+
+
+				<label class="mt-8 block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
 					First Name
 				</label>
 				<input
@@ -323,10 +328,9 @@ export default {
 			}
 
 			if (!this.selectedCampaign) {
-				this.$alert('Select campaign to assign the leads.', 'Validation error', {
-					confirmButtonText: 'Ok, understand.',
-					type: 'warning',
-					center: true,
+				this.$warning({
+					title: 'Validation error',
+					content: 'Select campaign to assign the leads.'
 				});
 
 				return;
@@ -416,10 +420,8 @@ export default {
 
 						this.isLoading = false;
 
-						this.$alert('Your lead was saved!', 'Success', {
-							confirmButtonText: 'Ok',
-							type: 'success',
-							center: true,
+						this.$success({
+							title: 'Your lead was saved!'
 						});
 					} else {
 						var additional = '';
@@ -440,7 +442,7 @@ export default {
 							finished: this.finished,
 							campaign: this.selectedCampaign,
 							account: this.$auth.user.id,
-							additional: this.customFields,
+							additional: JSON.stringify(this.customFields),
 							searchwords:
 								this.name + ',' + this.lastName + ',' + this.phone + this.email + ',' + additional,
 						});
@@ -451,10 +453,8 @@ export default {
 
 						this.isLoading = false;
 
-						this.$alert('Your lead was updated!', 'Success', {
-							confirmButtonText: 'Ok',
-							type: 'success',
-							center: true,
+						this.$success({
+							title: 'Your lead was updated!'
 						});
 					}
 

@@ -2,25 +2,63 @@
 	<div>
 		<loading :active.sync="isLoading" :is-full-page="true"></loading>
 
-		<div class="bg-white font-family-karla h-screen">
-			<div class="w-full flex flex-wrap">
-				<!-- Login Section -->
-				<div class="w-full md:w-1/2 flex flex-col">
-					<div class="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-24"></div>
+		<div class="min-h-screen bg-white flex">
+			<div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+				<div class="mx-auto w-full max-w-sm lg:w-96">
+					<div>
+						<img class="h-12 w-auto" src="/text1.png" alt="Workflow" />
+						<h2 class="mt-6 text-3xl leading-9 font-extrabold text-gray-900">
+							Sign in to your account
+						</h2>
+						<p class="mt-2 text-sm leading-5 text-gray-600 max-w">
+							Or
+							<a
+								href="/"
+								class="font-medium text-red-600 hover:text-red-500 focus:outline-none focus:underline transition ease-in-out duration-150"
+							>
+								Go To Main
+							</a>
+						</p>
+					</div>
 
-					<div class="flex flex-col justify-center md:justify-start my-auto md:pt-0 px-8 md:px-24 lg:px-32">
-						<a @click="goMain" class="cursor-pointer">
-							<img style="filter: brightness(0.25);" width="100" src="/text.png" alt="" />
-						</a>
+					<div class="mt-8">
+						<div>
+							<div>
+								<p class="text-sm leading-5 font-medium text-gray-700">
+									Sign in with
+								</p>
 
-						<div class="flex flex-col pt-3 md:pt-8" onsubmit="event.preventDefault();">
-							<small>
-								<a class="text-blue-800 cursor-pointer" @click="goMain"
-									><i class="fa fa-arrow-left"></i> back to main</a
+								<div class="mt-1 grid grid-cols-3 gap-3"></div>
+							</div>
+						</div>
+
+						<div
+							v-if="successMessages.length > 0"
+							style="margin-top:50px;"
+							class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative"
+							role="success"
+						>
+							<strong class="font-bold">Email is not confirmed!</strong>
+							<div v-for="register in successMessages">
+								<span class="block sm:inline">{{ register.message }}</span>
+							</div>
+							<span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+								<svg
+									class="fill-current h-6 w-6 text-red-500"
+									role="button"
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 20 20"
 								>
-							</small>
+									<title>Close</title>
+									<path
+										d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"
+									/>
+								</svg>
+							</span>
+						</div>
 
-							<div
+
+						<div
 								v-if="errors.length > 0"
 								class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
 								role="alert"
@@ -44,80 +82,86 @@
 								</span>
 							</div>
 
-							<div
-								v-if="successMessages.length > 0"
-								style="margin-top:50px;"
-								class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative"
-								role="success"
-							>
-								<strong class="font-bold">Email is not confirmed!</strong>
-								<div v-for="register in successMessages">
-									<span class="block sm:inline">{{ register.message }}</span>
-								</div>
-								<span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-									<svg
-										class="fill-current h-6 w-6 text-red-500"
-										role="button"
-										xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 20 20"
-									>
-										<title>Close</title>
-										<path
-											d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"
+						<div class="mt-6">
+							<div action="#" method="POST" class="space-y-6">
+								<div>
+									<label for="email" class="block text-sm font-medium leading-5 text-gray-700">
+										Email address
+									</label>
+									<div class="mt-1 rounded-md shadow-sm">
+										<input
+											v-model="user.identifier"
+											id="email"
+											type="email"
+											required
+											class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
 										/>
-									</svg>
-								</span>
+									</div>
+								</div>
+
+								<div>
+									<label for="password" class="block text-sm font-medium leading-5 text-gray-700">
+										Password
+									</label>
+									<div class="mt-1 rounded-md shadow-sm">
+										<input
+											v-model="user.password"
+											v-on:keyup.enter="login"
+											id="password"
+											type="password"
+											required
+											class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+										/>
+									</div>
+								</div>
+
+								<div class="flex items-center justify-between">
+									<div class="flex items-center">
+										<input
+											id="remember_me"
+											type="checkbox"
+											class="form-checkbox h-4 w-4 text-red-600 transition duration-150 ease-in-out"
+										/>
+										<label for="remember_me" class="ml-2 block text-sm leading-5 text-gray-900">
+											Remember me
+										</label>
+									</div>
+
+									<div class="text-sm leading-5">
+										<nuxt-link to="/reset">
+											<a
+												href="#"
+												class="font-medium text-red-600 hover:text-red-500 focus:outline-none focus:underline transition ease-in-out duration-150"
+											>
+												Forgot your password?
+											</a>
+										</nuxt-link>
+									</div>
+								</div>
+
+								<div>
+									<span class="block w-full rounded-md shadow-sm">
+										<button
+											v-on:keyup.enter="login"
+											@click="login"
+											type="submit"
+											class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700 transition duration-150 ease-in-out"
+										>
+											Sign in
+										</button>
+									</span>
+								</div>
 							</div>
-
-							<div class="flex flex-col pt-4">
-								<label for="email" class="text-lg">Email</label>
-								<input
-									v-model="user.identifier"
-									type="email"
-									id="email"
-									v-on:keyup.enter="login"
-									placeholder="your@email.com"
-									class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"
-								/>
-							</div>
-
-							<div class="flex flex-col pt-4">
-								<label for="password" class="text-lg">Password</label>
-								<input
-									v-model="user.password"
-									type="password"
-									v-on:keyup.enter="login"
-									id="password"
-									placeholder="Password"
-									class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"
-								/>
-							</div>
-
-							<button
-								v-on:keyup.enter="login"
-								@click="login"
-								class="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8"
-							>
-								Log In
-							</button>
-						</div>
-						<div class="text-center pt-12 pb-12">
-							<p>
-								Don't have an account?
-								<a href="/register" class="underline font-semibold">Register here.</a>
-							</p>
-
-							<a style="font-weight:bold;" href="/reset">¿Forgot password? </a>
-							or
-							<a href="/" class="text-blue-600 visited:text-purple-600">Back to main page</a>
 						</div>
 					</div>
 				</div>
-
-				<!-- Image Section -->
-				<div class="w-1/2 shadow-2xl">
-					<img class="w-full h-full  hidden md:block" src="/bg4.jpg" />
-				</div>
+			</div>
+			<div class="hidden lg:block relative w-0 flex-1">
+				<img
+					class="absolute inset-0 h-full w-full object-cover"
+					src="https://htmlcolorcodes.com/assets/images/html-color-codes-color-tutorials-903ea3cb.jpg"
+					alt=""
+				/>
 			</div>
 		</div>
 	</div>
@@ -132,9 +176,13 @@ export default {
 	mounted() {
 		if (this.$auth.user) {
 			if (this.$auth.user.agent) {
-				this.$router.push({
-					name: 'operator',
+				this.$auth.logout();
+
+				this.$error({
+					title: 'Error on login as administrator.',
+					content: "You don't have administrator permissions.",
 				});
+
 				return;
 			} else {
 				this.$router.push({ name: 'dashboard' });
@@ -199,8 +247,8 @@ export default {
 
 						return;
 					}
-	
-					logs.sendLogInfo('INVALID CREDENTIALS', err.response.data)
+
+					logs.sendLogInfo('INVALID CREDENTIALS', err.response.data);
 
 					this.error = true;
 					this.errors = [{ message: 'Email or password invalid.' }];
@@ -222,14 +270,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.page-enter-active,
-.page-leave-active {
-	transition: all 0.3s ease-out;
-}
-.page-enter,
-.page-leave-active {
-	opacity: 0;
-	transform-origin: 50% 50%;
-}
-</style>
+<style lang="scss" scoped></style>

@@ -333,13 +333,9 @@ export default {
       
       if (!this.selectedRegisterId || this.password !== "") {
         if (!this.validatePassword()) {
-          this.$alert(
-            "The password is not valid. Your password must have a minimum length of 12 characters along with at least one number, uppercase character and lowercase character.",
-            "Error on create agent",
-            {
-              confirmButtonText: "OK",
-              type: "warning",
-              center: true,
+          this.$warning({
+            content: "The password is not valid. Your password must have a minimum length of 12 characters along with at least one number, uppercase character and lowercase character.",
+            title: "Error on create agent"
             }
           );
           return;
@@ -347,13 +343,9 @@ export default {
       }
 
       if (this.selectedNumbers.length < 1) {
-        this.$alert(
-          "You need to select a number for this user.",
-          "Error on create agent",
-          {
-            confirmButtonText: "OK",
-            type: "warning",
-            center: true,
+        this.$warning({
+          content: "You need to select a number for this user.",
+          title: "Error on create agent"
           }
         );
 
@@ -361,15 +353,12 @@ export default {
       }
 
       if (isNaN(this.documentId)) {
-        this.$alert(
-          "The Identification number is not numeric.",
-          "Error on create agent",
-          {
-            confirmButtonText: "OK",
-            type: "warning",
-            center: true,
-          }
-        );
+
+				this.$error({
+          title: 'Error on create agent',
+          content: "The Identification number is not numeric."
+				});
+
         return;
       }
 
@@ -444,10 +433,8 @@ export default {
             console.log("error", error);
           }
 
-          this.$alert("The agent was updated.", "Success", {
-            confirmButtonText: "CONTINUE",
-            type: "success",
-            center: true,
+          this.$success( {
+            title: 'The agent was updated.'
           });
         } else {
           try {
@@ -509,25 +496,18 @@ export default {
               }
             });
 
-            this.$alert("The agent was created.", "Success", {
-              confirmButtonText: "CONTINUE",
-              type: "success",
-              center: true,
-            });
+         this.$success( {
+            title: 'The agent was created.'
+          });
 
             this.$router.push("/campaign/agents");
           } catch (error) {
             console.log("error", error);
             this.isLoading = false
-            this.$alert(
-              "The email or the identification number is taken",
-              "Error on create agent",
-              {
-                confirmButtonText: "CONTINUE",
-                type: "error",
-                center: true,
-              }
-            );
+            this.$error({
+              title: "The email or the identification number is taken",
+              content: "Error on create agent"
+            });
           }
         }
       }

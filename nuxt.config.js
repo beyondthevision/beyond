@@ -1,8 +1,5 @@
 export default {
     mode: 'spa',
-    /*
-     ** Headers of the page
-     */
     head: {
         title: process.env.npm_package_name || '',
         meta: [
@@ -16,6 +13,7 @@ export default {
         ],
         link: [
             { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,400i,600,700' },
+            { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@tailwindcss/ui@latest/dist/tailwind-ui.min.css' },
             { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Lato&display=swap' },
         ],
         script: [
@@ -23,23 +21,12 @@ export default {
             { src: 'https://www.googletagmanager.com/gtag/js?id=G-0ZZ7TSSC81' },
         ],
     },
-    // /*
-    //  ** Customize the progress-bar color
-    //  */
-    // loading: { color: "#fff" },
-    /*
-     ** Global CSS
-     */
-
     css: [
         'css/tailwind.min.css',
         'vue-select/dist/vue-select.css',
         'element-ui/lib/theme-chalk/reset.css',
         'element-ui/lib/theme-chalk/index.css',
     ],
-    /*
-     ** Plugins to load before mounting the App
-     */
     plugins: [
         '@/plugins/element-ui.js',
         '@/plugins/vue-moment.js',
@@ -50,28 +37,20 @@ export default {
         { src: '@/plugins/ga.js', mode: 'client' },
         { src: '@/plugins/clipboard.js', mode: 'client' },
     ],
-
     modules: ['@nuxtjs/axios', '@nuxtjs/auth', '@nuxtjs/font-awesome', 'nuxt-stripe-module', '@nuxtjs-extra/ant-design-vue'],
     stripe: {
         version: 'v3',
         publishableKey: 'pk_test_wVUeie2EhLpRHg689dHmZeYc00PvJYzGwp',
     },
-    /*
-     ** Nuxt.js dev-modules
-     */
     buildModules: [],
     axios: {
-        //baseURL: process.env.NODE_ENV !== 'production' ? 'http://localhost:1337' : 'https://api.jitto.io',
-        //baseURL: process.env.BACKEND_URL || 'https://jitto-backend.ketch.dev',
-        baseURL: 'https://jitto-backend.ketch.dev',
+        baseURL: 'https://beyondvision.herokuapp.com',
         //baseURL: 'http://192.168.10:1337',
     },
     env: {
-        //baseURL: process.env.NODE_ENV !== 'production' ? 'http://192.168.10:1337' : 'https://api.jitto.io',
-        //baseURL: process.env.BACKEND_URL || 'https://jitto-backend.ketch.dev',
-        baseURL: 'https://jitto-backend.ketch.dev',
-        //baseURL: 'http://192.168.10:1337',
-
+        baseURL: 'https://beyondvision.herokuapp.com',
+        frontendURL: 'https://sharetoearn.in'
+            //baseURL: 'http://192.168.10:1337',
     },
     debug: {
         enabled: true,

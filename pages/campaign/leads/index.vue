@@ -1,5 +1,6 @@
 <template>
 	<div>
+        		<loading :active.sync="isLoading" :is-full-page="true"></loading>
 
     <a-modal
       title="How to use"
@@ -47,11 +48,9 @@
 				</template>
 			</a-page-header>
 
-			<div class="my-2 flex sm:flex-row flex-col">
-				<div class="flex flex-row mb-1 sm:mb-0"></div>
-			</div>
-			<div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto mt-10">
-				<div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+
+			<div class="overflow-x-auto mt-10">
+				<div>
 					<grid
 						:searchTerms="searchTerms"
 						searchTermColumn="phone"
@@ -67,12 +66,17 @@
 
 <script>
 import grid from '@/components/grid';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
 	components: {
 		grid,
+		Loading
 	},
 	data() {
 		return {
+			isLoading: false,
 			dialogModal: false,
 			searchTerms: [
 				{

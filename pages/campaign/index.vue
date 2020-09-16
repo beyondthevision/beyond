@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <a-modal
       title="How to use"
 	  on-ok="dialogModal = false"
@@ -55,11 +56,8 @@
 		</a-page-header>
 
       </div>
-      <div class="my-2 flex sm:flex-row flex-col">
-        <div class="flex flex-row mb-1 sm:mb-0"></div>
-      </div>
-      <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto mt-10">
-        <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+      <div class="overflow-x-auto mt-5">
+        <div>
           <grid
             searchTermColumn="name"
             :hidden-columns="hiddenColumns"
@@ -77,23 +75,22 @@
 import grid from "@/components/grid";
 import { getPlan } from "../../utils/actions";
 import { getCount } from "../../api-front/api";
-
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
   async mounted() {
+    this.isLoading = true
     await this.checkIfCanCreate();
+    this.isLoading = false
   },
   methods: {
     goToAdd() {
       if (this.totalRegisters < this.plan.maxCampaigns) {
         this.$router.push("/campaign/add");
       } else {
-        this.$alert(
-          "Your plan does not allow you to create more campaigns.",
-          "Limit exceeded",
-          {
-            confirmButtonText: "Ok, understand.",
-            type: "warning",
-            center: true,
+        this.$warning({
+          content: "Your plan does not allow you to create more campaigns.",
+          title: "Limit exceeded"
           }
         );
       }
@@ -121,9 +118,11 @@ export default {
   },
   components: {
     grid,
+    Loading
   },
   data() {
     return {
+      isLoading: true,
       dialogModal: false,
       searchTerms: [
         {
@@ -138,6 +137,7 @@ export default {
       entityAddURL: "/campaigns/add",
       hiddenColumns: [
         "created_at",
+        "id",
         "updated_at",
         "number_sms",
         "deleted_at",

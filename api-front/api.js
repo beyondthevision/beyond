@@ -133,6 +133,32 @@ export function getCount(entity, email) {
     });
 }
 
+export function updateIVR(id, data) {
+    return axios({
+        method: "PUT",
+        url: `${host}` + "/ivrs/" + id,
+        data,
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `${localStorage.getItem("auth._token.local")}`,
+        },
+    });
+}
+
+export function saveIVR(data) {
+    return axios({
+        method: "POST",
+        url: `${host}` + "/ivrs",
+        data,
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `${localStorage.getItem("auth._token.local")}`,
+        },
+    });
+}
+
 export function deleteEntity(entity, id) {
     var data = { deleted_at: new Date() };
     return axios.put(`${host}` + "/" + entity + "/" + id, data, {

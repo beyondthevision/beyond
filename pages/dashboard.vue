@@ -1,14 +1,16 @@
 <template>
 	<div>
 		<a-row>
-			<!--Sidebar-->
+			<!--Sidebar
 			<a-col :lg="{ span: 4 }" :xs="{ span: 24, offset: 0 }">
 				<menu-dashboard></menu-dashboard>
 			</a-col>
+      -->
+
 
 			<!--/Sidebar-->
 			<!--Main-->
-			<a-col :lg="{ span: 17 }" :xs="{ span: 24, offset: 0 }" style="margin-left:15px;">
+			<a-col :lg="{ span: 29 }" :xs="{ span: 24, offset: 0 }" style="margin-left:15px;">
 				<nuxt></nuxt>
 			</a-col>
 			<!--/Main-->
@@ -25,6 +27,7 @@ import {
 
 
 export default {
+  name: 'dashboard',
     layout: 'loggedLayoutNew',
   components: {
      menuDashboard

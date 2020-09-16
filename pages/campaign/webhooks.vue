@@ -46,11 +46,10 @@
   active-text="Enable API">
 </el-switch>
 
-		<input
+		<a-input
 						id="invite-url"
 						style="margin-top:10px"
 						type="text"
-						class="form-control w-100"
 						v-model="API"
 						readonly=""
 					/>
@@ -87,11 +86,10 @@
 					</div>
 
 <div style="display:inline;">
-					<input
+					<a-input
 						id="invite-url"
 						type="text"
 						style="display:inline;"
-						class="form-control w-100"
 						:value="'https://jitto-backend.ketch.dev/api/add-lead?API=' + this.$auth.user.API"
 						readonly=""
 					/>
@@ -114,25 +112,23 @@
                         <p>Allow send all your logs and transcriptions to a free big query database and then to <b>google data studio</b>.</p>
 					</div>
 
-					<input
+					<a-input
 						id="invite-url"
 						v-model="logflareChannel"
                         placeholder="DRAIN ID (CHANNEL)"
 						type="text"
-						class="form-control w-100"
                         style="margin-bottom:10px;"
 					/>
 
 						<span style="margin-top:120px;" class="input-icon-addon"> <i class="fas fa-link"></i> API KEY LOGFLARE</span>
                         <p> <a style="font-weight:bold;color:red;" href="">API KEY LOGFLARE</a>  </p>
 
-					<input
+					<a-input
                         style="margin-top:10px"
 						id="invite-url"
                         placeholder="INSERT API KEY"
 						type="text"
 						v-model="logflareAPI"
-						class="form-control w-100"
 					/>
 
                     <button @click="updateUserData" style="margin-top:20px;margin-button:20px;" class="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">SAVE</button>
@@ -183,11 +179,9 @@ if (v) {
 				await this.$auth.fetchUser()
 				this.isLoading = false
 
-        this.$alert("Your API was activated.", "Success", {
-          confirmButtonText: "CONTINUE",
-          type: "success",
-          center: true,
-        });
+        this.$success({
+			content: "Your API was activated.", 
+			title: "Success"});
 
 							} else {
 				this.apiEnabled = false
@@ -215,10 +209,9 @@ if (v) {
 		this.logflareAPI = this.$auth.user.logflareAPI
 		this.API = this.$auth.user.API
 
-        this.$alert("Your data was updated.", "Success", {
-          confirmButtonText: "CONTINUE",
-          type: "success",
-          center: true,
+        this.$success({
+			content:"Your data was updated.", 
+			title: "Success"
         });
 
 

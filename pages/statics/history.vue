@@ -4,10 +4,7 @@
 			<a-page-header style="border: 1px solid rgb(235, 237, 240)" title="Payments" @back="() => null">
 				<template slot="extra">
 					<div class="extra">
-						<a-button key="3" type="danger" size="large" @click="addCredit()">
-							<i class="fa fa-plus" style="margin-right:10px;"></i>
-							Add Credit
-						</a-button>
+
 						<nuxt-link :to="{ name: 'pricing', params: { upgrade: true } }">
 							<a-button key="4" type="primary" size="large">
 								<i class="fa fa-plus" style="margin-right:10px;"></i>
@@ -20,7 +17,7 @@
 
 			<a-row>
 				<a-col :lg="{ span: 11 }" :xs="{ span: 24, offset: 0 }" style="margin-top:20px;">
-					<h3 class="text-2xl font-semibold leading-tight">
+					<h3 class="text-2xl font-semibold leading-tight overflow-x-auto">
 						Payments subscription
 					</h3>
 					<grid
@@ -34,7 +31,7 @@
 				</a-col>
 
 				<a-col :lg="{ span: 12 }" :xs="{ span: 24, offset: 0 }" style="margin-top:20px;">
-					<h3 class="text-2xl font-semibold leading-tight">
+					<h3 class="text-2xl font-semibold leading-tight overflow-x-auto">
 						Balance detailed
 					</h3>
 					<grid
@@ -83,7 +80,7 @@ export default {
 			entityBalance: 'accounts',
 			entity: 'numbers',
 			customColumns: [],
-			hiddenColumns: ['automatic', 'user', 'campaign', 'deleted_at', 'id'],
+			hiddenColumns: ['automatic', 'user', 'campaign', 'deleted_at', 'id','funds_added'],
 		};
 	},
 };

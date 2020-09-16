@@ -19,7 +19,7 @@
           <a-icon type="video-camera" />
           <span class="nav-text">Campaigns</span>
         </a-menu-item>
-        <a-menu-item key="3"  @click="goTo('ivr')">
+        <a-menu-item v-if="IVR" key="3"  @click="goTo('ivr')">
           <a-icon type="menu" />
           <span class="nav-text">IVR</span>
         </a-menu-item>
@@ -50,7 +50,9 @@
       <a-layout-header :style="{ background: '#fff', padding: 0 }" />
       <a-layout-content :style="{ margin: '24px 16px 0' }">
         <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
+          <keep-alive>
           <nuxt />
+          </keep-alive>
         </div>
       </a-layout-content>
       <!-- <a-layout-footer style="textAlign: center">

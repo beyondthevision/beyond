@@ -8,7 +8,7 @@
 
 					<div class="flex flex-col justify-center md:justify-start my-auto md:pt-0 px-8 md:px-24 lg:px-32">
 						<a href="/">
-							<img style="filter: brightness(0.25);" width="100" src="/text.png" alt="" />
+							<img style="filter: brightness(0.25);"  src="/text1.png" alt="" />
 						</a>
 
 						<div class="flex flex-col pt-3 md:pt-8" onsubmit="event.preventDefault();">
@@ -74,7 +74,7 @@
 
 				<!-- Image Section -->
 				<div class="w-1/2 shadow-2xl" style="background: linear-gradient(90deg, #d53369 0%, #daae51 100%);">
-					<img class="object-cover w-full h-screen hidden md:block" src="/bg4.jpg" />
+					<img class="object-cover w-full h-screen hidden md:block" src="https://miro.medium.com/max/6936/1*Qd6XyPlotFCPj5bjASzC0Q.jpeg" />
 				</div>
 			</div>
 		</div>

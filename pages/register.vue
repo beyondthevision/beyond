@@ -7,7 +7,7 @@
 			<div class="w-full md:w-1/2 flex flex-col">
 				<div class="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-12">
 					<a class="cursor-pointer" @click="goMain">
-						<img style="    filter: brightness(0.25);" width="100" src="/text.png" alt="" />
+						<img style="    filter: brightness(0.25);" width="100" src="/text1.png" alt="" />
 					</a>
 				</div>
 
@@ -194,7 +194,7 @@
 
 			<!-- Image Section -->
 			<div class="w-1/2 shadow-2xl">
-				<img class="w-full h-full  hidden md:block" src="/bg4.jpg" />
+				<img class="w-full h-full  hidden md:block" src="https://miro.medium.com/max/6936/1*Qd6XyPlotFCPj5bjASzC0Q.jpeg" />
 			</div>
 		</div>
 	</div>

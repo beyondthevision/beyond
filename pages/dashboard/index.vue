@@ -3,11 +3,103 @@
 		<div>
 			<div>
 
-		<a-page-header style="border: 1px solid rgb(235, 237, 240);margin-bottom:10px;" title="General Metrics" @back="() => null">
+		<a-page-header style="border: 1px solid rgb(235, 237, 240);margin-bottom:10px;" :title="'Metrics - '+  hour" @back="() => null">
 
 		</a-page-header>
 
-				<el-select style="margin-top:2px;" @change="changeCampaign" v-model="selectedCampaign" placeholder="Select campaign" clearable>
+<a-row class="mt-4 ml-4">
+
+			<a-col :lg="{ span: 12 }" :xs="{ span: 24, offset: 0 }">
+
+<div class="border-b border-gray-200">
+  <div class="space-y-4 sm:flex sm:items-baseline sm:space-y-0 sm:space-x-10">
+    <div>
+      <nav class="-mb-px flex space-x-8">
+	        <a  class="whitespace-no-wrap pb-4 px-1 border-b-2 border-indigo-500 font-medium text-sm leading-5 text-indigo-600 focus:outline-none focus:text-indigo-800 focus:border-indigo-700" aria-current="page">
+
+		  <nuxt-link to="/dashboard">
+          General Metrics
+       	  
+		  </nuxt-link>
+ </a>
+<a class="whitespace-no-wrap pb-4 px-1 border-b-2  border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">
+		<nuxt-link to="/dashboard/agents">
+        
+          Agent Metrics 
+        
+		</nuxt-link>
+		</a>		
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+	</a-col>
+
+</a-row>
+
+<div>
+  <div class="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow md:grid-cols-3">
+    <div>
+      <div class="px-4 py-5 sm:p-6">
+        <dl>
+          <dt class="text-base leading-6 font-normal text-gray-900">
+           Calls Waiting
+          </dt>
+          <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+            <div class="flex items-baseline text-2xl leading-8 font-semibold text-indigo-600">
+             {{ callsWaiting.length }}
+    
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="border-t border-gray-200 md:border-0 md:border-l">
+      <div class="px-4 py-5 sm:p-6">
+        <dl>
+          <dt class="text-base leading-6 font-normal text-gray-900">
+            Agents conected
+          </dt>
+          <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+            <div class="flex items-baseline text-2xl leading-8 font-semibold text-indigo-600">
+             										{{ agentsReady.length }}
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="border-t border-gray-200 md:border-0 md:border-l">
+      <div class="px-4 py-5 sm:p-6">
+        <dl>
+          <dt class="text-base leading-6 font-normal text-gray-900">
+           Total calls
+          </dt>
+          <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+            <div class="flex items-baseline text-2xl leading-8 font-semibold text-indigo-600">
+  {{ callsToday.length }}
+            </div>
+            <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium leading-5 bg-red-100 text-red-800 md:mt-2 lg:mt-0">
+              <svg class="-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span class="sr-only">
+                Decreased by
+              </span>
+              20%
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a-row class="mt-4">
+
+			<a-col :lg="{ span: 10,offset:14 }" :xs="{ span: 24, offset: 0 }">
+	<el-select style="margin-top:2px;" @change="changeCampaign" v-model="selectedCampaign" placeholder="Select campaign" clearable>
 					<el-option v-for="item in campaigns" :key="item.id" :label="item.name" :value="item.id">
 					</el-option>
 				</el-select>
@@ -47,149 +139,51 @@
 				@click="removeIntervals" v-if="mainInterval" class="button-live"
 					><i class="fas fa-refresh"></i> LIVE</a
 				>
-			</div>
-		</div>
+</a-col>
+</a-row>
 
-		<div class="flex flex-wrap mt-5">
-			<div class="w-full md:w-4/4 xl:w-4/4 pl-3">
-				<ejs-dashboardlayout id="defaultLayout" :cellSpacing="spacing" :columns="6">
-					<div style="margin-top:5px;" id="one" class="e-panel" data-row="0" data-col="0" data-sizeX="1" data-sizeY="2">
-						<div class="bg-white  rounded  p-2">
-							<div class="flex flex-row items-center">
-								<div class="flex-shrink pr-4">
-									<div class="rounded p-3 bg-green-600">
-										<i class="fa fa-phone fa-2x fa-fw fa-inverse"></i>
-									</div>
-								</div>
-								<div class="flex-1 text-right md:text-center">
-									<h5 class="font-bold uppercase text-gray-500">
-										Calls Waiting
-									</h5>
-									<h3 class="font-bold text-3xl">
-										{{ callsWaiting.length }}
-										<span class="text-green-500"><i class="fas fa-caret-up"></i></span>
-									</h3>
-								</div>
-							</div>
-						</div>
+<a-row class="mt-4">
 
-						<div class="bg-white  rounded p-2">
-							<div class="flex flex-row items-center">
-								<div class="flex-shrink pr-4">
-									<div class="rounded p-3 bg-yellow-600">
-										<i class="fas fa-user-plus fa-2x fa-fw fa-inverse"></i>
-									</div>
-								</div>
-								<div class="flex-1 text-right md:text-center">
-									<h5 class="font-bold uppercase text-gray-500">
-										Agents conected
-									</h5>
-									<h3 class="font-bold text-3xl">
-										{{ agentsReady.length }}
-										<span class="text-yellow-600"><i class="fas fa-caret-up"></i></span>
-									</h3>
-								</div>
-							</div>
-						</div>
+			<a-col :lg="{ span: 12 }" :xs="{ span: 24, offset: 0 }">
+  <a-card>
+	        <a-spin v-if="isLoading" />
 
-						<div class="bg-white  rounded p-2 mt-1">
-							<div class="flex flex-row items-center">
-								<div class="flex-shrink pr-4">
-									<div class="rounded p-3 bg-red-600">
-										<i class="fas fa-users fa-2x fa-fw fa-inverse"></i>
-									</div>
-								</div>
-								<div class="flex-1 text-right md:text-center mt-1">
-									<h5 class="font-bold uppercase text-gray-500">
-										Total calls
-									</h5>
-									<h3 class="font-bold text-3xl">
-										{{ callsToday.length }}
-										<span class="text-red-500"><i class="fas fa-exchange-alt"></i></span>
-									</h3>
-								</div>
-							</div>
-						</div>
-					</div>
+							<apexchart
+									ref="chartDay"
+									v-show="!isLoading"
+									type="line"
+									:height="300"
+									:options="optionsDay"
+									:series="seriesDay"
+								></apexchart>
+  </a-card>
+		
+	</a-col>
 
-					<div
-						id="three"
-						style="height:392px;margin-top:5px;margin-bottom:15px;"
-						class="e-panel"
-						data-row="0"
-						data-col="1"
-						data-sizeX="2"
-						data-sizeY="2"
-					>
-						<div class="e-panel-container">
-							<div class="text-align">
-								<a
-									style="padding:10px;margin-top:10px; font-weight:bold; color:black;"
-									v-show="isLoading"
-									>Loading..</a
-								>
-								<apexchart
+			<a-col :lg="{ span: 12 }" :xs="{ span: 24, offset: 0 }">
+				  <a-card>
+	        <a-spin v-if="isLoading" />
+
+
+									<apexchart
 									ref="chartMonth"
 									type="bar"
+									:height="300"
 									v-show="!isLoading"
 									:options="optionsMonth"
 									:series="seriesMonth"
 								></apexchart>
-							</div>
-						</div>
-					</div>
+								  </a-card>
 
-					<div
-						id="six"
-						style="height:392px;margin-top:5px;"
-						class="e-panel"
-						data-row="0"
-						data-col="3"
-						data-sizeX="2"
-						data-sizeY="2"
-					>
-						<div class="e-panel-container">
-							<div class="text-align">
-								<a
-									style="padding:10px;margin-top:10px; font-weight:bold; color:black;"
-									v-show="isLoading"
-									>Loading..</a
-								>
-								<apexchart
-									ref="chartDay"
-									v-show="!isLoading"
-									type="line"
-									:options="optionsDay"
-									:series="seriesDay"
-								></apexchart>
-							</div>
-						</div>
-					</div>
+	</a-col>
 
-<div
-						id="seven"
-						class="e-panel"
-						data-row="3"
-						data-col="0"
-						data-sizeX="1"
-						data-sizeY="1"
-					>
-
-								<div class="flex-1 text-right text-center" style="padding:20px;">
-									<h5 class="font-bold uppercase text-black">
-										HOUR {{$auth.user.timezone}}
-									</h5>
-									<h3 class="font-bold text-3xl text-black">
-																{{hour}}
-
-										<span class="text-green-500"><i class="fas fa-clock"></i></span>
-									</h3>
-								</div>
+</a-row>
 
 
-					</div>
 
-				</ejs-dashboardlayout>
+
+
+
 
 			</div>
 		</div>
@@ -218,14 +212,19 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import logs from '../../api-front/logs';
 
 export default {
+	name:'mainDashboard',
 	components: {
 		Loading,
 	},
-	async mounted() {
+	async created() {
+  if(process.client){
+
+
 		await this.getCampaigns();
 		this.isCurrentDateFn();
 		this.mainInterval = null;
 		//this.registerIntervals();
+  }
 	},
 	watch: {
 		selectedDateFormatted(date) {
@@ -329,7 +328,11 @@ export default {
 				this.seriesMonth = seriesMonth;
 			});
 		},
-
+		getDate () {
+return moment(this.selectedDate)
+				.tz(this.$auth.user.timezone)
+				.format('YYYY-MM-DD')
+		},
 		async changeDate(d) {
 			if (d) {
 				this.selectedDate = moment(d).tz(this.$auth.user.timezone);
@@ -707,6 +710,10 @@ export default {
 				},
 			},
 			optionsDay: {
+  legend: {
+    position: 'top'
+  },
+
 				title: {
 					text: 'Calls per day',
 					align: 'left',

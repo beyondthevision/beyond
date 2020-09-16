@@ -1,6 +1,22 @@
 <template>
   <div>
     <ul class="list-reset flex flex-col">
+
+      <li
+        class=" w-full h-full py-3 px-2 border-b border-light-border bg-white"
+      >
+      <nuxt-link to="/campaign/numbers">
+          <a
+            class="cursor-pointer font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline text-black hover:text-red-600"
+          >
+            <i class="fas fa-phone float-left mx-2"></i>
+            Numbers
+            <span><i class="fas fa-angle-right float-right"></i></span>
+          </a>
+        </nuxt-link>
+      </li>
+
+
       <li
         class=" w-full h-full py-3 px-2 border-b border-light-border bg-white"
       >
@@ -84,7 +100,7 @@
       </li>
 
       <li
-        v-if="recordings"
+        v-if="webhooks"
         class="w-full h-full py-3 px-2 border-b border-light-border"
       >
         <nuxt-link to="/campaign/webhooks">
@@ -112,6 +128,7 @@ export default {
   data () {
     return {
       IVR: false,
+      webhooks: false,
       SMS: false,
       recordings: false,
       VoiceCalls: false
@@ -124,6 +141,7 @@ export default {
 
       this.IVR = data.IVR;
       this.SMS = data.SMS;
+      this.webhooks = data.webhooks
       this.recordings = data.recordings;
       this.VoiceCalls = data.VoiceCalls;
     },

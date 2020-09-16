@@ -1,7 +1,7 @@
 {
-    "name": "jitto",
+    "name": "sharetoearn",
     "version": "1.0.0",
-    "description": "Jitto.io",
+    "description": "sharetoearn",
     "author": "Ketch",
     "private": true,
     "scripts": {

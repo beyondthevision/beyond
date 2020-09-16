@@ -1,29 +1,29 @@
 <template>
   <div>
     		<loading :active.sync="isLoading" :is-full-page="true"></loading>
-		<a-row>
 
-			<a-col :lg="{ span: 8 }" :xs="{ span: 24, offset: 0 }">
+
 
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-5"
             for="grid-first-name"
             style="margin-top:10px;"
           >
-            Campaign Name
+            IVR Name
           </label>
           <input
             class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
             id="grid-first-name"
             type="text"
             v-model="name"
-            placeholder="Name of campaign"
+            placeholder="Name of IVR"
           />
-          <p v-if="!isValidCampaignName" class="text-red-500 text-xs italic">
+          <p v-if="!isValidIVRName" class="text-red-500 text-xs italic">
             Please fill out this field.
           </p>
 
           <label
+            v-if="!selectedRegisterId"
           style="margin-top:10px;"
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             for="grid-first-name"
@@ -31,7 +31,7 @@
             Type
           </label>
           <v-select
-            :disabled="selectedRegisterId"
+            v-if="!selectedRegisterId"
             v-model="type"
             :reduce="(type) => type.value"
             :options="optionsTypes"
@@ -99,7 +99,7 @@
 
           <label
           style="margin-top:10px;"
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-5"
             for="grid-first-name"
           >
             Timezone
@@ -140,39 +140,16 @@
 
         </div>
  
-          <label
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            for="grid-first-name"
-            style="margin-top:10px;"
-          >
-            Phone Extension
-          </label>
-
-          <input
-            class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-            id="grid-first-name"
-            type="text"
-            v-model="defaultExtension"
-            placeholder="Extensión +1"
-          />
-          <p class="text-gray-600 text-xs italic">
-            Leads added to this campaign that have no extension will use this
-            value by default.
-          </p>
 
 
 
           <button
             @click="save"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            class="bg-blue-500 mt-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
             SAVE
           </button>
 
-			</a-col>
-
-
-		</a-row>
 
   
   </div>
@@ -186,9 +163,9 @@ import {
   saveCampaign,
   getById,
   getNumbersAllNoIVR,
-  updateCampaign,
   getNumbersNoIVR,
-  saveCampaignWithDomain,
+updateIVR,
+saveIVR
 } from "../../../api-front/api";
 
 import Loading from 'vue-loading-overlay';
@@ -204,15 +181,18 @@ export default {
     this.getNumbers();
 
     if (this.selectedRegisterId) {
-      var response = await getById("campaigns", this.selectedRegisterId);
+      var response = await getById("ivrs", this.selectedRegisterId);
       var data = response.data;
+
+      console.log("data", data)
+
       this.name = data.name;
       this.type = data.type;
       this.start_at = data.start_at;
       this.end_at = data.end_at
-      this.start_end = data.start_end;
       this.timezone = data.timezone;
-      this.number_sms = data.number_sms;
+      this.description = data.description
+      this.order = data.order
     }
   },
   methods: {
@@ -228,10 +208,10 @@ export default {
     validate() {
       var isValid = true;
 
-      this.isValidCampaignName = true;
+      this.isValidIVRName = true;
 
       if (this.name == "") {
-        this.isValidCampaignName = false;
+        this.isValidIVRName = false;
         isValid = false;
       }
 
@@ -272,39 +252,29 @@ export default {
         try {
           if (!this.selectedRegisterId) {
             this.isLoading = true
-            var response = await saveCampaignWithDomain({
+            var response = await saveIVR({
               name: this.name,
               type: this.type,
-              state: "active",
+              description: this.description,
               start_at: this.start_at,
               end_at: this.end_at,
               timezone: this.timezone,
-              number_sms: this.number_sms,
-              account: this.$auth.user.id,
-              defaultExtension: this.defaultExtension
+              account: this.$auth.user.id
             });
 
-            logs.sendLogInfo('SAVED CAMPAIGN WITH DOMAIN', response)
+            logs.sendLogInfo('SAVED IVR', response)
 
 
             var id = response.data.id;
-            if (this.type == "sms") {
-              this.$router.push("/campaign/add/sms?id=" + id);
-              setTimeout(() => {
-                window.location.reload();
-              }, 1000);
-            } else {
-
-              this.isLoading = false
-
-              this.$router.push("/campaign/add/add-agents?id=" + id);
+            if (this.type == "IVR_CALL") {
+              this.$router.push("/ivr/add/modules?id=" + id);
               setTimeout(() => {
                 window.location.reload();
               }, 1000);
             }
 
             this.$success({
-              title: 'Your campaign was saved'
+              title: 'Your IVR was saved'
             });
           } else {
 
@@ -313,41 +283,34 @@ export default {
             var updateObj = {
               name: this.name,
               type: this.type,
+              description: this.description,
               start_at: this.start_at,
               end_at: this.end_at,
               timezone: this.timezone,
-              number_sms: this.number_sms,
-              account: this.$auth.user.id,
-              defaultExtension: this.defaultExtension
+              account: this.$auth.user.id
             }
 
-            updateCampaign(this.selectedRegisterId, updateObj);
+            updateIVR(this.selectedRegisterId, updateObj);
             this.isLoading = false
-            logs.sendLogInfo('UPDATED CAMPAIGN WITH DOMAIN', updateObj)
+            logs.sendLogInfo('UPDATED IVR', updateObj)
 
-            if (this.type == "sms") {
+            if (this.type == "IVR_CALL") {
               this.$router.push(
-                "/campaign/add/sms?id=" + this.selectedRegisterId
+                "/ivr/add/modules?id=" + this.selectedRegisterId
               );
               setTimeout(() => {
                 window.location.reload();
               }, 1000);
-            } else {
-              this.$router.push(
-                "/campaign/add/add-agents?id=" + this.selectedRegisterId
-              );
-              setTimeout(() => {
-                window.location.reload();
-              }, 1000);
-            }
+            } 
 
             this.$success({
-              title: 'Your campaign was saved'
+              title: 'Your IVR was saved'
             });
           }
         } catch (error) {
+          this.isLoading = false
           this.$error({
-            title: 'Error on save campaign'
+            title: 'Error on save IVR'
           });
         }
       }
@@ -355,29 +318,26 @@ export default {
   },
   data() {
     return {
+      selectedRegisterId:null,
       isLoading: false,
       defaultExtension: "+1",
       numbers: [],
       number_sms: null,
       isValidType: true,
-      isValidCampaignName: true,
+      isValidIVRName: true,
       isValidEndHour: true,
       isValidStartHour: true,
       isValidTimeZone: true,
       timezone: "America/Los_Angeles",
       timezones: timezones,
       name: "",
-      type: "call",
+      type: "IVR_CALL",
       start_at: "8:45",
       end_at: "22:00",
       optionsTypes: [
         {
-          label: "SMS",
-          value: "sms",
-        },
-        {
           label: "Call",
-          value: "call",
+          value: "IVR_CALL",
         },
       ],
     };

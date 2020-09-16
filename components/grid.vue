@@ -2,41 +2,8 @@
   <div>
         		<loading :active.sync="isLoading" :is-full-page="true"></loading>
 
-    <div class="my-2 flex sm:flex-row flex-col">
-      <div class="flex flex-row mb-1 sm:mb-0">
-        <div class="relative">
-          <select
-            v-model="pagination.pageSize"
-            @change="changePagination"
-            class="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          >
-            <option :value="5">5</option>
-            <option :value="10">10</option>
-            <option :value="20">20</option>
-          </select>
-          <div
-            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
-          >
-            <svg
-              class="fill-current h-4 w-4"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
-              <path
-                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
+    <div>
       <div class="block relative ml-1" v-if="entity !== 'bulkdata'">
-        <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
-          <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current text-gray-500">
-            <path
-              d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z"
-            ></path>
-          </svg>
-        </span>
         <input
           v-model="searchTerm"
           @input="changeTerm"
@@ -45,7 +12,7 @@
         />
       </div>
 
-      <div class="ml-1" v-if="this.entity == 'calls'">
+      <div class="ml-1 mt-5" v-if="this.entity == 'calls'">
         <el-date-picker
           v-model="dateTime"
           type="daterange"
@@ -55,7 +22,7 @@
         </el-date-picker>
       </div>
 
-      <div class="float-right ml-1 pull-right" v-for="filter in filters">
+      <div class="float-right ml-1 pull-right mt-5" v-for="filter in filters">
         <!-- <v-select
           :placeholder="'Select ' + filter.column"
           style="width:200px;"
@@ -69,18 +36,17 @@
       </div>
     </div>
 
-    <table class="min-w-full leading-normal">
+        <table class="min-w-full divide-y divide-gray-200 mt-5">
       <thead>
         <tr>
           <th
             v-for="col in columnDefs"
-            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-          >
+ class="pl-6 py-6 bg-gray-50  text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
             {{ getTitle(col) }}
           </th>
           <th
-            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-          ></th>
+ class="pl-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -90,7 +56,7 @@
           v-for="row in rowData"
         >
           <td
-            class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
+            class="pl-5 py-5 border-b border-gray-200 bg-white text-sm"
             v-for="col in columnDefs"
           >
             <div v-if="entity !== 'recordings' && entity !== 'bulkdata'">
@@ -220,12 +186,13 @@ export default {
     },
   },
   async mounted() {
-    this.loading = true;
     await this.getData();
-    this.loading = false;
-  },
+    this.isLoading = false
+    
+    },
   data() {
     return {
+      nroRegister:0,
       isLoading:false,
       dateTime: null,
       searchTerm: "",
@@ -281,11 +248,17 @@ export default {
       });
     },
     async remove(data) {
-      this.$confirm("This action can not be undone.", "Are you sure?", {
-        confirmButtonText: "CONTINUE",
-        type: "warning",
-        center: true,
-      }).then(async () => {
+      var response = await this.$success(
+        {
+          title: "Are you sure?",
+                  content: "This action can't be undone.",
+        okText: 'Destroy',
+        okType: 'danger',
+        confirmLoading:true,
+        closable:true,
+                cancelText: 'No',
+
+          onOk: async () => {
         if (this.entity == "agents") {
           this.isLoading = true
           var response = await deleteAgentsInTwilioByAgent(data);
@@ -313,9 +286,46 @@ export default {
 
 
           this.getData();
-          this.isLoading = false
         }
-      });
+      }
+      })
+
+
+
+// .then(async () => {
+//         if (this.entity == "agents") {
+//           this.isLoading = true
+//           var response = await deleteAgentsInTwilioByAgent(data);
+//           logs.sendLogInfo('DELETED AGENTS IN TWILIO BY AGENT', response.data)
+//           this.getData();
+//           // await deleteEntity(this.entity, data.id);
+//         } else if (this.entity == "campaigns") {
+//           this.isLoading = true
+//           var response = await deleteAgentsInTwilioByCampaign(data);
+
+//           logs.sendLogInfo('DELETED AGENTS IN TWILIO BY CAMPAIGN', response.data)
+
+//           var response = await deleteCampaign(data.id);
+
+//           logs.sendLogInfo('DELETED CAMPAIGN', response.data)
+
+//           this.isLoading = false
+
+//           this.getData();
+//         } else {
+//           this.isLoading = true
+//           var response = await deleteEntity(this.entity, data.id);
+
+//           logs.sendLogInfo('DELETED ENTITY ' + this.entity, response.data)
+
+
+//           this.getData();
+//         }
+//       });
+
+
+
+
     },
     select (row) {
       if (this.view == "operator" && this.entity == 'leads') {
@@ -605,6 +615,7 @@ export default {
 
       this.rowData = responseEntity.data;
       this.rowDataLength = this.rowData.length
+      this.isLoading = false
     },
   },
 };

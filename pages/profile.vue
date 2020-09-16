@@ -3,12 +3,8 @@
 		<loading :active.sync="isLoading" :is-full-page="true"></loading>
 
 		<a-page-header style="border: 1px solid rgb(235, 237, 240)" title="Profile" @back="() => null">
-			<template slot="extra">
+					<template slot="extra">
 				<div class="extra">
-					<a-button key="3" type="danger" size="large" @click="addCredit()">
-						<i class="fa fa-plus" style="margin-right:10px;"></i>
-						Add Credit
-					</a-button>
 					<nuxt-link :to="{ name: 'pricing', params: { upgrade: true } }">
 						<a-button key="4" type="primary" size="large">
 							<i class="fa fa-plus" style="margin-right:10px;"></i>
@@ -17,6 +13,7 @@
 					</nuxt-link>
 				</div>
 			</template>
+		
 		</a-page-header>
 
 		<a-row style="margin-top:20px;">
@@ -519,10 +516,8 @@ export default {
 
 				this.$auth.fetchUser();
 
-				this.$alert('Your profile was updated.', 'Success', {
-					confirmButtonText: 'CONTINUE',
-					type: 'success',
-					center: true,
+				this.$success({
+					title: 'Your profile was updated.'
 				});
 
 				this.$router.push('/statics');
