@@ -44,11 +44,11 @@ export default {
     },
     buildModules: [],
     axios: {
-        baseURL: 'https://beyondvision.herokuapp.com',
+        baseURL: 'http://0.0.0.0:1337',
         //baseURL: 'http://192.168.10:1337',
     },
     env: {
-        baseURL: 'https://beyondvision.herokuapp.com',
+        baseURL: 'http://0.0.0.0:1337',
         frontendURL: 'https://sharetoearn.in'
             //baseURL: 'http://192.168.10:1337',
     },
@@ -66,6 +66,20 @@ export default {
             prefix: 'auth.',
         },
         strategies: {
+            facebook: {
+                _scheme: 'oauth2',
+                authorization_endpoint: 'https://4978b7401195.ngrok.io/connect/facebook/',
+                userinfo_endpoint: 'https://www.googleapis.com/oauth2/v3/userinfo',
+                scope: ['openid', 'profile', 'email'],
+                access_type: undefined,
+                access_token_endpoint: undefined,
+                response_type: 'token',
+                token_type: 'Bearer',
+                redirect_uri: undefined,
+                client_id: 'SET_ME',
+                token_key: 'access_token',
+                state: 'UNIQUE_AND_NON_GUESSABLE'
+            },
             local: {
                 endpoints: {
                     login: { url: '/auth/local', method: 'post', propertyName: 'jwt' },

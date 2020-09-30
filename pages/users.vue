@@ -1,8 +1,7 @@
 <template>
-	<div>
+    <div>
 
-
-		<a-page-header style="border: 1px solid rgb(235, 237, 240);margin-bottom:10px;" :title="'Pay Request'">
+		<a-page-header style="border: 1px solid rgb(235, 237, 240);margin-bottom:10px;" :title="'Users'">
 
 		</a-page-header>
 
@@ -17,13 +16,13 @@
                 ID
               </th>
               <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Timestamp
+                Stores
               </th>
               <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Email
+                Logo
               </th>
               <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Pay Amt
+                Website
               </th>
 
           <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -31,11 +30,19 @@
               </th>
 
           <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Transfer
+                Category
               </th>
 
           <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Transfer Time
+               Action
+              </th>
+
+          <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+               Offer
+              </th>
+
+         <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+               Time
               </th>
 
               <th class="px-6 py-3 bg-gray-50"></th>
@@ -43,28 +50,11 @@
           </thead>
           <tbody>
             <!-- Odd row -->
-            <tr class="bg-white" :key="payment.id" v-for="payment in payments">
+            <tr class="bg-white">
               <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                 {{payment.id}}
+                1
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                {{payment.transferTime}}
-              </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                {{payment.email}}
-
-              </td>
-			  <td>                {{payment.phone}}</td>
-			  <td>{{payment.payAmt}}</td>
-              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-               {{payment.payMode}}
-              </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-				  {{payment.transferTime}}
-			  </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">Transfer</a>
-              </td>
+  
             </tr>
 
 
@@ -77,42 +67,16 @@
 </div>
 
 
-	</div>
+    </div>
 </template>
 
 <script>
-import * as moment from 'moment-timezone';
-
-
-import Vue from 'vue';
-
-
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
-
-
-
-export default {
-  data () {
-    return {
-      payments: [],
-      isLoading: false,
+    export default {
+      layout: 'loggedLayoutNew',
+      
     }
-  },
-  methods: {
-        async getData () {
-          this.isLoading = true
-      var response = await this.$axios.get('/pay-requests')
-      this.payments = response.data
-      this.isLoading = false
-    },
-  },
-  mounted() {
-    this.getData();
-  }
-};
 </script>
 
-<style>
+<style lang="scss" scoped>
 
-
+</style>

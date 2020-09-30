@@ -315,16 +315,7 @@ export default {
 				return;
 			}
 
-			if (!this.validatePassword()) {
-				window.scrollTo(0, 0);
 
-				this.errors.push({
-					message: 'The password is not strong.',
-				});
-				this.isLoading = false;
-
-				return;
-			}
 
 			user.timezone = 'Europe/London';
 

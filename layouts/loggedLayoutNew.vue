@@ -9,36 +9,40 @@
       @collapse="onCollapse"
       @breakpoint="onBreakpoint"
     >
-      <img style="padding:10px;filter: invert(1);" width="50%" src="https://jitto.io/text.png" alt="">
+      <img style="padding:10px;filter: invert(1);"  src="/text1.png" alt="">
       <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
         <a-menu-item key="1"  @click="goTo('dashboard')">
           <a-icon type="coffee" />
           <span class="nav-text">Dashboard</span>
         </a-menu-item>
-        <a-menu-item key="2"  @click="goTo('campaign')">
-          <a-icon type="video-camera" />
-          <span class="nav-text">Campaigns</span>
+        <a-menu-item key="2"  @click="goTo('pay')">
+          <a-icon type="plus" />
+          <span class="nav-text">Add store</span>
         </a-menu-item>
-        <a-menu-item v-if="IVR" key="3"  @click="goTo('ivr')">
+        <a-menu-item  key="3"  @click="goTo('stores')">
+          <a-icon type="shop" />
+          <span class="nav-text">Stores</span>
+        </a-menu-item>
+        
+        <a-menu-item  key="4"  @click="goTo('categories')">
           <a-icon type="menu" />
-          <span class="nav-text">IVR</span>
+          <span class="nav-text">Categories</span>
         </a-menu-item>
-        <a-menu-item key="4"  @click="goTo('statics')">
+
+        <a-menu-item  key="5"  @click="goTo('categories-add')">
+          <a-icon type="menu" />
+          <span class="nav-text">Add Category</span>
+        </a-menu-item>
+
+        <a-menu-item key="6"  @click="goTo('users')">
           <a-icon type="dollar" />
-          <span class="nav-text">Balance</span>
+          <span class="nav-text">Users</span>
         </a-menu-item>
 
 
 
-                <a-menu-item key="6"                      @click="goTo('profile')"
->
-          <a-icon type="user" />
-          <span class="nav-text">   
-             
- Profile <a-avatar v-if="$auth.user" style="margin-left:10px;margin-top:-3px;" size="small" :src="$auth.user.photo.url" /> </span>
-        </a-menu-item>
 
-                <a-menu-item key="5"                       @click="logout"
+                <a-menu-item key="7"                       @click="logout"
 >
           <a-icon type="logout" />
           <span class="nav-text">Logout</span>
@@ -91,12 +95,8 @@ export default {
 
     await this.$auth.fetchUser();
 
-    if (!this.$auth.user.plan) {
-      this.$router.push({ name: "pricing" });
-      return;
-    }
+
     await this.getUser();
-    await this.getPlan();
 
 
   },
@@ -194,6 +194,10 @@ export default {
 
 .anticon {
 vertical-align: 0%;
+}
+
+.ant-menu.ant-menu-dark .ant-menu-item-selected, .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
+    background-color: #000000;
 }
 
 </style>

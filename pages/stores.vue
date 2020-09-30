@@ -1,10 +1,10 @@
 <template>
-	<div>
+    <div>
 
-
-		<a-page-header style="border: 1px solid rgb(235, 237, 240);margin-bottom:10px;" :title="'Pay Request'">
+		<a-page-header style="border: 1px solid rgb(235, 237, 240);margin-bottom:10px;" :title="'Stores'">
 
 		</a-page-header>
+
 
 <div class="flex flex-col">
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -17,13 +17,13 @@
                 ID
               </th>
               <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Timestamp
+                Stores
               </th>
               <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Email
+                Logo
               </th>
               <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Pay Amt
+                Website
               </th>
 
           <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -31,11 +31,19 @@
               </th>
 
           <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Transfer
+                Category
               </th>
 
           <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Transfer Time
+               Action
+              </th>
+
+          <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+               Offer
+              </th>
+
+         <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+               Time
               </th>
 
               <th class="px-6 py-3 bg-gray-50"></th>
@@ -43,28 +51,30 @@
           </thead>
           <tbody>
             <!-- Odd row -->
-            <tr class="bg-white" :key="payment.id" v-for="payment in payments">
+            <tr v-for="store in stores" class="bg-white">
               <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                 {{payment.id}}
+                {{store.id}}
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                {{payment.transferTime}}
+  
+            <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+              {{store.name}}
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                {{payment.email}}
+
+                          <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                {{store.website}}
+              </td>
+
+
+                          <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                               {{store.payMode}}
 
               </td>
-			  <td>                {{payment.phone}}</td>
-			  <td>{{payment.payAmt}}</td>
-              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-               {{payment.payMode}}
+
+                          <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                               {{store.categoryId}}
+
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-				  {{payment.transferTime}}
-			  </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">Transfer</a>
-              </td>
+
             </tr>
 
 
@@ -76,8 +86,7 @@
   </div>
 </div>
 
-
-	</div>
+    </div>
 </template>
 
 <script>
@@ -93,17 +102,18 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 
 
 export default {
+    layout: 'loggedLayoutNew',
   data () {
     return {
-      payments: [],
+      stores: [],
       isLoading: false,
     }
   },
   methods: {
         async getData () {
           this.isLoading = true
-      var response = await this.$axios.get('/pay-requests')
-      this.payments = response.data
+      var response = await this.$axios.get('/stores')
+      this.stores = response.data
       this.isLoading = false
     },
   },
@@ -114,5 +124,3 @@ export default {
 </script>
 
 <style>
-
-

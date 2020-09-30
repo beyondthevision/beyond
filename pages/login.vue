@@ -21,6 +21,9 @@
 						</p>
 					</div>
 
+						<a @click="loginFacebook">Go to facebook</a>
+
+
 					<div class="mt-8">
 						<div>
 							<div>
@@ -130,7 +133,6 @@
 									<div class="text-sm leading-5">
 										<nuxt-link to="/reset">
 											<a
-												href="#"
 												class="font-medium text-red-600 hover:text-red-500 focus:outline-none focus:underline transition ease-in-out duration-150"
 											>
 												Forgot your password?
@@ -159,7 +161,7 @@
 			<div class="hidden lg:block relative w-0 flex-1">
 				<img
 					class="absolute inset-0 h-full w-full object-cover"
-					src="https://htmlcolorcodes.com/assets/images/html-color-codes-color-tutorials-903ea3cb.jpg"
+					src="https://www.wizardit.com/wp-content/uploads/2019/07/digital-hexagon-abstract-background-dark-black-tone_rv9jgr_de_thumbnail-full01.png"
 					alt=""
 				/>
 			</div>
@@ -208,6 +210,10 @@ export default {
 				name: 'index',
 			});
 		},
+		loginFacebook () {
+			this.$auth.loginWith('facebook')
+
+		},
 		login() {
 			let user = this.user;
 			let response = this.$auth;
@@ -226,7 +232,7 @@ export default {
 				.then((response) => {
 					logs.sendLogInfo('NEW LOGIN ' + user.identifier, {});
 
-					this.$router.push({ name: 'pricing' });
+					this.$router.push({ name: 'dashboard' });
 					this.isLoading = true;
 				})
 				.catch((err) => {

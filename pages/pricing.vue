@@ -282,8 +282,8 @@ export default {
 	},
 	methods: {
 		selectPlan(plan) {
-			var stripe = Stripe('pk_test_wVUeie2EhLpRHg689dHmZeYc00PvJYzGwp');
-      
+      console.log(plan)	
+			var stripe = Stripe('pk_test_51HRTnfIjDR27xqglrfSntw1G6CuU1smajYU2vkjMgCRkg26e3oTS9T3qMI2ldNcvxuFYDJYZWlkMvSPcH4pWd3xp00AGyXN9Bs');
       stripe
 				.redirectToCheckout({
 					mode: 'subscription',
