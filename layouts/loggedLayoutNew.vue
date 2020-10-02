@@ -15,7 +15,7 @@
           <a-icon type="coffee" />
           <span class="nav-text">Dashboard</span>
         </a-menu-item>
-        <a-menu-item key="2"  @click="goTo('pay')">
+        <a-menu-item key="2"  @click="goTo('add-store')">
           <a-icon type="plus" />
           <span class="nav-text">Add store</span>
         </a-menu-item>

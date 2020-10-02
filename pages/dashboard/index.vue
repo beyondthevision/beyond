@@ -5,11 +5,19 @@
 		<a-page-header style="border: 1px solid rgb(235, 237, 240);margin-bottom:10px;" :title="'Pay Request'">
 
 		</a-page-header>
+		<loading :active.sync="isLoading" :is-full-page="true"></loading>
 
 <div class="flex flex-col">
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
       <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+
+
+        <div class="p-1">
+              <a-input-search placeholder="Search..." enter-button @search="onSearch" />
+
+        </div>
+
         <table class="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
@@ -41,14 +49,14 @@
               <th class="px-6 py-3 bg-gray-50"></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody >
             <!-- Odd row -->
             <tr class="bg-white" :key="payment.id" v-for="payment in payments">
               <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
                  {{payment.id}}
               </td>
               <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                {{payment.transferTime}}
+                {{formatDate(payment.transferTime)}}
               </td>
               <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                 {{payment.email}}
@@ -60,7 +68,7 @@
                {{payment.payMode}}
               </td>
               <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-				  {{payment.transferTime}}
+				  {{formatDate(payment.transferTime)}}
 			  </td>
               <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                 <a href="#" class="text-indigo-600 hover:text-indigo-900">Transfer</a>
@@ -71,6 +79,18 @@
             <!-- More rows... -->
           </tbody>
         </table>
+
+      <div class="mt-5 mb-5">
+          <center>
+          <a-button type="dashed" @click="getData()">
+            <i class="fa fa-plus" style="margin-right:10px;"></i> 
+           
+            Load More</a-button>
+
+  </center>
+
+      </div>
+
       </div>
     </div>
   </div>
@@ -97,18 +117,35 @@ export default {
     return {
       payments: [],
       isLoading: false,
+      offset: 0
     }
   },
+  components: {
+    Loading
+  },
   methods: {
+
+
+
+
+
+    formatDate (v) {
+return moment
+            .utc(v)
+            .tz("Asia/Kolkata")
+            .format("YYYY-MM-DD HH:mm A");
+    },
         async getData () {
           this.isLoading = true
-      var response = await this.$axios.get('/pay-requests')
-      this.payments = response.data
+      var response = await this.$axios.get('/pay-requests?_limit=5&_start=' + this.offset)
+      this.payments.push.apply(this.payments, response.data);
       this.isLoading = false
     },
   },
-  mounted() {
-    this.getData();
+
+  async mounted() {
+    await this.getData();
+
   }
 };
 </script>

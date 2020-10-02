@@ -1,5 +1,5 @@
 export default {
-    mode: 'spa',
+    mode: 'universal',
     head: {
         title: process.env.npm_package_name || '',
         meta: [
@@ -30,56 +30,45 @@ export default {
     plugins: [
         '@/plugins/element-ui.js',
         '@/plugins/vue-moment.js',
-        { src: '@/plugins/apexchart.js', ssr: false },
-        '@/plugins/vue-mask',
-        '@/plugins/v-select',
-        { src: '@/plugins/crisp.js', ssr: false },
-        { src: '@/plugins/ga.js', mode: 'client' },
+
         { src: '@/plugins/clipboard.js', mode: 'client' },
     ],
-    modules: ['@nuxtjs/axios', '@nuxtjs/auth', '@nuxtjs/font-awesome', 'nuxt-stripe-module', '@nuxtjs-extra/ant-design-vue'],
+    modules: [
+        '@nuxtjs/axios',
+        '@nuxtjs/auth',
+        '@nuxtjs/font-awesome',
+        '@nuxtjs/pwa',
+        'nuxt-stripe-module',
+        '@nuxtjs-extra/ant-design-vue',
+    ],
     stripe: {
         version: 'v3',
         publishableKey: 'pk_test_wVUeie2EhLpRHg689dHmZeYc00PvJYzGwp',
     },
-    buildModules: [],
     axios: {
-        baseURL: 'http://0.0.0.0:1337',
-        //baseURL: 'http://192.168.10:1337',
+        baseURL: 'https://beyondvision.herokuapp.com'
     },
     env: {
-        baseURL: 'http://0.0.0.0:1337',
+        baseURL: 'https://beyondvision.herokuapp.com',
         frontendURL: 'https://sharetoearn.in'
-            //baseURL: 'http://192.168.10:1337',
     },
     debug: {
         enabled: true,
         sendHitTask: true,
     },
-
-    /*
-     ** Nuxt.js modules
-     */
-    // modules: ["@nuxtjs/axios", "@nuxtjs/auth"],
+    buildModules: [
+        ['@nuxtjs/google-analytics', {
+            id: 'UA-176565116-3'
+        }]
+    ],
+    pwa: {
+        icon: true
+    },
     auth: {
         localStorage: {
             prefix: 'auth.',
         },
         strategies: {
-            facebook: {
-                _scheme: 'oauth2',
-                authorization_endpoint: 'https://4978b7401195.ngrok.io/connect/facebook/',
-                userinfo_endpoint: 'https://www.googleapis.com/oauth2/v3/userinfo',
-                scope: ['openid', 'profile', 'email'],
-                access_type: undefined,
-                access_token_endpoint: undefined,
-                response_type: 'token',
-                token_type: 'Bearer',
-                redirect_uri: undefined,
-                client_id: 'SET_ME',
-                token_key: 'access_token',
-                state: 'UNIQUE_AND_NON_GUESSABLE'
-            },
             local: {
                 endpoints: {
                     login: { url: '/auth/local', method: 'post', propertyName: 'jwt' },
@@ -91,18 +80,13 @@ export default {
             },
             redirect: {
                 logout: '/login',
+                home: '/dashboard',
+                callback: '/dashboard',
             },
         },
     },
-    /*
-     ** Build configuration
-     */
     build: {
         transpile: [/^element-ui/, 'ag-grid-vue'],
-
-        /*
-         ** You can extend webpack config here
-         */
         extend(config, ctx) {},
     },
     generate: {
