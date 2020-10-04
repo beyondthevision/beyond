@@ -74,7 +74,7 @@
 
 				<!-- Image Section -->
 				<div class="w-1/2 shadow-2xl" style="background: linear-gradient(90deg, #d53369 0%, #daae51 100%);">
-					<img class="object-cover w-full h-screen hidden md:block" 					src="https://www.wizardit.com/wp-content/uploads/2019/07/digital-hexagon-abstract-background-dark-black-tone_rv9jgr_de_thumbnail-full01.png"
+					<img class="object-cover w-full h-screen hidden md:block" 					src="/banner.png"
  />
 				</div>
 			</div>
@@ -119,7 +119,7 @@ export default {
 						email: this.user.email,
 					})
 					.then((response) => {
-						logs.sendLogInfo('NEW PASSWORD RESET ' + user.email, {});
+						
 						// Handle success.
 						this.sended = true;
 					})

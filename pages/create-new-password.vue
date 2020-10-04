@@ -8,7 +8,7 @@
 
 					<div class="flex flex-col justify-center md:justify-start my-auto md:pt-0 px-8 md:px-24 lg:px-32">
 						<a href="/">
-							<img style="filter: brightness(0.25);" width="100" src="/text.png" alt="" />
+							<img style="filter: brightness(0.25);" width="100" src="/text1.png" alt="" />
 						</a>
 
 

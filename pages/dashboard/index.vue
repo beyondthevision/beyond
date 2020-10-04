@@ -14,7 +14,7 @@
 
 
         <div class="p-1">
-              <a-input-search placeholder="Search..." enter-button @search="onSearch" />
+              <a-input-search  v-model="searchInput" placeholder="Search by email." enter-button @search="onSearch" />
 
         </div>
 
@@ -71,7 +71,7 @@
 				  {{formatDate(payment.transferTime)}}
 			  </td>
               <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">Transfer</a>
+                <a-button @click="goToTransfer(payment.id)" class="text-indigo-600 hover:text-indigo-900">Transfer</a-button>
               </td>
             </tr>
 
@@ -80,9 +80,9 @@
           </tbody>
         </table>
 
-      <div class="mt-5 mb-5">
+      <div class="mt-5 mb-5" v-if="showLoadMore">
           <center>
-          <a-button type="dashed" @click="getData()">
+          <a-button  type="dashed" @click="loadMore">
             <i class="fa fa-plus" style="margin-right:10px;"></i> 
            
             Load More</a-button>
@@ -115,8 +115,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
   data () {
     return {
+      showLoadMore: true,
       payments: [],
       isLoading: false,
+      searchInput: '',
       offset: 0
     }
   },
@@ -124,11 +126,18 @@ export default {
     Loading
   },
   methods: {
+    goToTransfer (id) {
+      this.$router.push('/add-transfer?id=' + id)
+    },
+    loadMore () {
 
-
-
-
-
+      this.offset = this.offset + 5
+      this.getData()      
+    },
+    onSearch () {
+        this.payments = []
+        this.getData()
+    },
     formatDate (v) {
 return moment
             .utc(v)
@@ -137,8 +146,13 @@ return moment
     },
         async getData () {
           this.isLoading = true
-      var response = await this.$axios.get('/pay-requests?_limit=5&_start=' + this.offset)
-      this.payments.push.apply(this.payments, response.data);
+      var response = await this.$axios.get('/pay-requests?_limit=5&_start=' + this.offset + '&email_contains=' + this.searchInput)
+      this.showLoadMore = false
+      console.log(response.data)
+      if (response.data.length > 0) {
+        this.payments.push.apply(this.payments, response.data);
+        this.showLoadMore = true
+      }
       this.isLoading = false
     },
   },

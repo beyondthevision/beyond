@@ -164,7 +164,7 @@
 			<div class="hidden lg:block relative w-0 flex-1">
 				<img
 					class="absolute inset-0 h-full w-full object-cover"
-					src="https://www.wizardit.com/wp-content/uploads/2019/07/digital-hexagon-abstract-background-dark-black-tone_rv9jgr_de_thumbnail-full01.png"
+					src="/banner.png"
 					alt=""
 				/>
 			</div>
